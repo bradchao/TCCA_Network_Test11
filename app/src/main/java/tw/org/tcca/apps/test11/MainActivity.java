@@ -8,12 +8,14 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 public class MainActivity extends AppCompatActivity {
     private File sdroot, imgFile;
@@ -57,8 +59,21 @@ public class MainActivity extends AppCompatActivity {
         settings.setSupportZoom(true);
         settings.setDisplayZoomControls(false);
 
-        String html = "<h1>Brad Big Company</h1>";
-        webView.loadData(html, "text/html", "UTF-8");
+//        String html = "<h1>Brad Big Company</h1>";
+//        webView.loadData(html, "text/html", "UTF-8");
+
+        byte[] imgBytes = new byte[(int)imgFile.length()];
+        try(FileInputStream fin = new FileInputStream(imgFile)){
+            fin.read(imgBytes);
+            String imgBase64 = Base64.encodeToString(imgBytes, Base64.DEFAULT);
+            String html = "<img src='data:image/png; base64, " + imgBase64 + "' />";
+            webView.loadData(html, "text/html", "UTF-8");
+        }catch (Exception e){
+
+        }
+
+
+
     }
 
 }
