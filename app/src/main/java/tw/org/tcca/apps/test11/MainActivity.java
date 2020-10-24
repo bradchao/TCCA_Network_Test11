@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         sdroot = Environment.getExternalStorageDirectory();
         imgFile = new File(sdroot, "android.png");
+        if (imgFile.exists()){
+            Log.v("bradlog", "file ok");
+        }
+
         webView = findViewById(R.id.webview);
         initWebView();
     }
@@ -52,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
         settings.setSupportZoom(true);
         settings.setDisplayZoomControls(false);
 
-
+        String html = "<h1>Brad Big Company</h1>";
+        webView.loadData(html, "text/html", "UTF-8");
     }
 
 }
